@@ -1,4 +1,4 @@
-CFLAGS = -Wall -g -DNDEBUG
+CFLAGS = -Wall -g #-DNDEBUG
 CC = gcc
 
 nsftp: nsftp.c cli.o ftp.o usrpi.o nstr.o

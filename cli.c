@@ -6,81 +6,45 @@
 #include "dbg.h"
 #include "nstr.h"
 
-/*
-int is_valid_comm(char *buf)
+#define PROMPT "NSFTP -}"
+
+size_t usr_cmd_bsize;
+char *usr_cmd;
+
+int cli_init()
 {
-    if(buf){
-        char *temp = strdup(buf);
-        char *comm = strtok(temp, " ");
-        if(comm) { 
-            capitalize(comm);
-            for(int i = 0; i < IMPL_SIZE; i++)
-                if(strcmp(comm,COMMANDS[i]) == 0) {
-                    free(temp);
-                    return 1;
-                }
-        }
-        free(temp);
-    }
-    return 0;
-}
-*/
-int is_valid_comm(char *buf)
-{
-    if(buf){
-        int found = 0;
-        char *comm = strtok(buf, " ");
-        if(comm) {
-            capitalize(comm);
-            for(int i = 0; i < IMPL_SIZE; i++)
-                if(strcmp(comm, COMMANDS[i]) == 0)
-                    found = 1;    
-            
-            buf[strlen(comm)] = ' '; //undo strtok changes;
-            return found;
-        }
-    }
-    return 0;
+    usr_cmd_bsize = BUFSIZE;
+    usr_cmd = calloc(usr_cmd_bsize, sizeof(char));
+    check_mem(usr_cmd);
+    return 0;    
+
+error:
+    if(usr_cmd) free(usr_cmd);
+    return -1;
 }
 
-
-
-int get_command(char **buf, size_t *buf_size)
+int get_usr_cmd(char **buf)
 {
-    if(*buf_size > BUFSIZE)
-        *buf_size = BUFSIZE;    
+    if(usr_cmd_bsize > BUFSIZE)
+        usr_cmd_bsize = BUFSIZE;    
     
-    size_t len = getline(buf, buf_size, stdin);
+    size_t len = getline(&usr_cmd, &usr_cmd_bsize, stdin);
     check(len != -1, "Error reading from stdin.");
 
-    trim(*buf, &len);
-    debug("buf: %s->%ld(%ld)", *buf, len, *buf_size);
-    
-    if(is_valid_comm(*buf)) {
-        //makes sure there's enough space to append <CR><LF>
-        if(len+3 > *buf_size)
-            *buf = realloc(*buf, *buf_size = len+3);
-
-        (*buf)[len] = '\r';
-        (*buf)[len+1] = '\n';
-        (*buf)[len+2] = '\0';
-
-        debug("full command-> %s : %ld (%ld)", *buf, len, *buf_size);
-        return (strcmp(*buf, "QUIT\r\n") == 0)? -1 : 1;
-    }
+    trim(usr_cmd, &len);
+    debug("usr_cmd: %s->%ld(%ld)", usr_cmd, len, usr_cmd_bsize);
+   
+    *buf = strdup(usr_cmd);
+    check_mem(*buf);
+   
     return 0;
 
 error:
     return -1;
 }
 
-void append_crlf(char *comm, int *buf_size, int len)
+void print_prompt()
 {
-    //makes sure there's enough space to append <CR><LF>
-    if(*buf_size - len < 2)
-        comm = realloc(comm, ++(*buf_size));
-
-    comm[len-1] = '\r';
-    comm[len] = '\n';
-    comm[len+1] = '\0';
+    printf(PROMPT);
+    fflush(stdout);
 }

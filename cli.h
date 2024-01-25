@@ -3,6 +3,11 @@
 
 #define BUFSIZE 100
 
-int get_command(char **, size_t *);
+int cli_init();
+
+void print_prompt();
+
+//gets a trimed line from stdin. allocates memory using strdup that should be freed by caller
+int get_usr_cmd(char **);
 
 #endif
