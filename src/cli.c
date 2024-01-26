@@ -32,7 +32,7 @@ int get_usr_cmd(char **buf)
     check(len != -1, "Error reading from stdin.");
 
     trim(usr_cmd, &len);
-    debug("usr_cmd: %s->%ld(%ld)", usr_cmd, len, usr_cmd_bsize);
+    //debug("usr_cmd: %s->%ld(%ld)", usr_cmd, len, usr_cmd_bsize);
    
     *buf = strdup(usr_cmd);
     check_mem(*buf);
@@ -46,5 +46,17 @@ error:
 void print_prompt()
 {
     printf(PROMPT);
+    fflush(stdout);
+}
+
+void print_response(char *resp)
+{
+    printf(resp);
+    fflush(stdout);
+}
+
+void print_cmd_invalid()
+{
+    printf("Unknown command!\n");
     fflush(stdout);
 }

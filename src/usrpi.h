@@ -10,5 +10,6 @@ int get_ctl_sock();
 //recieves responses from the server
 int get_serv_resp(char **);
 
-void send_cmd(char *);
+//sends cmd to server. RETURN: 1 -> Unrecognized cmd; -1 -> error; 0 -> sucess
+int send_usr_cmd(char *);
 #endif

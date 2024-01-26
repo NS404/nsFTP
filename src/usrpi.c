@@ -45,14 +45,10 @@ int get_serv_resp(char **resp)
 {
     int r = recv(ctl_sock_fd, serv_response, response_bsize, 0);
     check(r != -1, "recv call failed");
-    serv_response[r] = '\0';    
-
-    debug("serv_response: %s", serv_response);
-
+    serv_response[r] = '\0';
     *resp = strdup(serv_response);
     check_mem(*resp);
-
-    return 0;    
+    return 0; 
 
 error:
     return -1;
@@ -60,29 +56,47 @@ error:
 
 int is_valid_ftp_cmd(char *usr_cmd)
 {
-    if(usr_cmd){
-        char *temp = strdup(usr_cmd);
-        char *comm = strtok(temp, " ");
-        if(comm) { 
-            capitalize(comm);
-            for(int i = 0; i < IMPL_SIZE; i++)
-                if(strcmp(comm,COMMANDS[i]) == 0) {
-                    free(temp);
-                    return 1;
-                }
-        }
-        free(temp);
+    char *temp = strdup(usr_cmd);
+    char *comm = strtok(temp, " ");
+    if(comm) { 
+        capitalize(comm);
+        for(int i = 0; i < IMPL_SIZE; i++)
+            if(strcmp(comm,COMMANDS[i]) == 0) {
+                free(temp);
+                return 1;
+            }
     }
+    free(temp);
     return 0;
 }
 
-void send_cmd(char *cmd)
+int send_usr_cmd(char *usr_cmd)
 {
-    if(is_valid_ftp_cmd(cmd)) {
+    char *cmd = NULL;
+    if(is_valid_ftp_cmd(usr_cmd)) {
         
         //makes sure there's enough space to append <CR><LF>
-        debug("VALIDA!!!!!"); 
-    }
+        
+        int size = strlen(usr_cmd) + 2;
+        cmd = malloc(size);
+        check_mem(cmd);
+        strcpy(cmd, usr_cmd);
+        cmd[size-2] = '\r';
+        cmd[size-1] = '\n';
+        //debug("cmd: %s", cmd);        
+
+        check(ctl_sock_fd != -1, "Cannot send. Connection was closed");
+        int sc = send(ctl_sock_fd, cmd, size, 0);
+        check(sc != -1, "Failed to send");
+        
+        free(cmd);
+        return 0;
+    } else 
+        return 1;
+
+error:
+    if(cmd) free(cmd);
+    return -1;
 }
  
 int get_ctl_sock()

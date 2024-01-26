@@ -1,20 +1,23 @@
-CFLAGS = -Wall -g #-DNDEBUG
-CC = gcc
+CFLAGS=-Wall -g
+CC=gcc
+SRC=src
+OBJ=obj
+BINDIR=bin
+SRCS=$(wildcard $(SRC)/*.c)
+OBJS=$(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))
+BIN=$(BINDIR)/nsftp
 
-nsftp: nsftp.c cli.o ftp.o usrpi.o nstr.o
-	${CC} ${CFLAGS} nsftp.c cli.o ftp.o usrpi.o nstr.o -o nsftp
+all:$(BIN)
 
-cli.o: cli.c
-	${CC} ${CFLAGS} -c cli.c -o cli.o
+release: CFLAGS=-Wall -O2 -DNDEBUG
+release: clean
+release: $(BIN)
 
-ftp.o: ftp.c
-	${CC} ${CFLAGS} -c ftp.c -o ftp.o
+$(BIN): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $@
 
-usrpi.o: usrpi.c
-	${CC} ${CFLAGS} -c usrpi.c -o usrpi.o
-
-nstr.o: nstr.c
-	${CC} ${CFLAGS} -c nstr.c -o nstr.o
+$(OBJ)/%.o: $(SRC)/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm nsftp cli.o ftp.o usrpi.o nstr.o
+	$(RM) -r $(BINDIR)/* $(OBJ)/*
