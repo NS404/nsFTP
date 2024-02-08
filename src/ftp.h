@@ -1,7 +1,8 @@
 #ifndef FTP_H
 #define FTP_H
 
-#define IMPL_SIZE 14
+#define IMPL_SIZE 15
+#define MAX_CMD_CODE_LEN 4
 extern char *COMMANDS[IMPL_SIZE];
 
 //----Default Transfer Parameters----

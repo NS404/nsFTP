@@ -1,0 +1,4 @@
+- strlen() should be used only on null terminated strings
+- memory leaks
+
+

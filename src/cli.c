@@ -14,9 +14,9 @@ char *usr_cmd;
 int cli_init()
 {
     usr_cmd_bsize = BUFSIZE;
-    usr_cmd = calloc(usr_cmd_bsize, sizeof(char));
+    usr_cmd = calloc(usr_cmd_bsize, sizeof(char)); //FIXME free memory
     check_mem(usr_cmd);
-    return 0;    
+    return 0;
 
 error:
     if(usr_cmd) free(usr_cmd);

@@ -21,6 +21,7 @@ char *COMMANDS[] = {
 
     "QUIT",
     "NOOP",
+    "HELP"
    };
 
 char *DATA_TYPES[] = {
