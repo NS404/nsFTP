@@ -1,4 +1,3 @@
-- strlen() should be used only on null terminated strings
 - memory leaks
-
-
+- user interface not user-friendly
+- broken prompt printing after retrieving file

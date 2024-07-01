@@ -8,39 +8,31 @@
 
 #define PROMPT "NSFTP -}"
 
-size_t usr_cmd_bsize;
-char *usr_cmd;
+//PATH_MAX  4096
+char *input_buf;
+size_t buf_size = BUFSIZ;
 
 int cli_init()
 {
-    usr_cmd_bsize = BUFSIZE;
-    usr_cmd = calloc(usr_cmd_bsize, sizeof(char)); //FIXME free memory
-    check_mem(usr_cmd);
+    input_buf = malloc(buf_size);
+    check_mem(input_buf);
     return 0;
 
 error:
-    if(usr_cmd) free(usr_cmd);
     return -1;
 }
 
-int get_usr_cmd(char **buf)
+char * get_stdin_line()
 {
-    if(usr_cmd_bsize > BUFSIZE)
-        usr_cmd_bsize = BUFSIZE;    
-    
-    size_t len = getline(&usr_cmd, &usr_cmd_bsize, stdin);
-    check(len != -1, "Error reading from stdin.");
-
-    trim(usr_cmd, &len);
-    //debug("usr_cmd: %s->%ld(%ld)", usr_cmd, len, usr_cmd_bsize);
-   
-    *buf = strdup(usr_cmd);
-    check_mem(*buf);
-   
-    return 0;
+    input_buf = fgets(input_buf, buf_size, stdin);
+    check_mem(input_buf); 
+    size_t len = strlen(input_buf);
+    trim(input_buf, &len);
+    return input_buf;
 
 error:
-    return -1;
+    if (input_buf) free(input_buf);
+    return NULL;
 }
 
 void print_prompt()

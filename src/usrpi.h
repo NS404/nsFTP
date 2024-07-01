@@ -9,4 +9,8 @@ int get_serv_resp(char **);
 
 //sends cmd to server. RETURN: 1 -> Unrecognized cmd; -1 -> error; 0 -> sucess
 int send_usr_cmd(char *);
+
+//closes the control connection and frees memory allocated for PI
+void close_ctl_con();
+
 #endif
