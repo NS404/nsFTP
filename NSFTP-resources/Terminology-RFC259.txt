@@ -1,0 +1,197 @@
+TERMINOLOGY
+
+      ASCII
+
+         The ASCII character set is as defined in the ARPA-Internet
+         Protocol Handbook.  In FTP, ASCII characters are defined to be
+         the lower half of an eight-bit code set (i.e., the most
+         significant bit is zero).
+
+      access controls
+
+         Access controls define users' access privileges to the use of a
+         system, and to the files in that system.  Access controls are
+         necessary to prevent unauthorized or accidental use of files.
+         It is the prerogative of a server-FTP process to invoke access
+         controls.
+
+      byte size
+
+         There are two byte sizes of interest in FTP:  the logical byte
+         size of the file, and the transfer byte size used for the
+         transmission of the data.  The transfer byte size is always 8
+         bits.  The transfer byte size is not necessarily the byte size
+         in which data is to be stored in a system, nor the logical byte
+         size for interpretation of the structure of the data.
+
+      control connection
+
+         The communication path between the USER-PI and SERVER-PI for
+         the exchange of commands and replies.  This connection follows
+         the Telnet Protocol.
+
+      data connection
+
+         A full duplex connection over which data is transferred, in a
+         specified mode and type. The data transferred may be a part of
+         a file, an entire file or a number of files.  The path may be
+         between a server-DTP and a user-DTP, or between two
+         server-DTPs.
+
+      data port
+
+         The passive data transfer process "listens" on the data port
+         for a connection from the active transfer process in order to
+         open the data connection.
+
+      DTP
+
+         The data transfer process establishes and manages the data
+         connection.  The DTP can be passive or active.
+
+      End-of-Line
+
+         The end-of-line sequence defines the separation of printing
+         lines.  The sequence is Carriage Return, followed by Line Feed.
+
+      EOF
+
+         The end-of-file condition that defines the end of a file being
+         transferred.
+
+      EOR
+
+         The end-of-record condition that defines the end of a record
+         being transferred.
+
+      error recovery
+
+         A procedure that allows a user to recover from certain errors
+         such as failure of either host system or transfer process.  In
+         FTP, error recovery may involve restarting a file transfer at a
+         given checkpoint.
+
+      FTP commands
+
+         A set of commands that comprise the control information flowing
+         from the user-FTP to the server-FTP process.
+
+      file
+
+         An ordered set of computer data (including programs), of
+         arbitrary length, uniquely identified by a pathname.
+
+      mode
+
+         The mode in which data is to be transferred via the data
+         connection.  The mode defines the data format during transfer
+         including EOR and EOF.  The transfer modes defined in FTP are
+         described in the Section on Transmission Modes.
+
+      NVT
+
+         The Network Virtual Terminal as defined in the Telnet Protocol.
+
+      NVFS
+
+         The Network Virtual File System.  A concept which defines a
+         standard network file system with standard commands and
+         pathname conventions.
+
+      page
+
+         A file may be structured as a set of independent parts called
+         pages.  FTP supports the transmission of discontinuous files as
+         independent indexed pages.
+
+      pathname
+
+         Pathname is defined to be the character string which must be
+         input to a file system by a user in order to identify a file.
+         Pathname normally contains device and/or directory names, and
+         file name specification.  FTP does not yet specify a standard
+         pathname convention.  Each user must follow the file naming
+         conventions of the file systems involved in the transfer.
+
+      PI
+
+         The protocol interpreter.  The user and server sides of the
+         protocol have distinct roles implemented in a user-PI and a
+         server-PI.
+
+      record
+
+         A sequential file may be structured as a number of contiguous
+         parts called records.  Record structures are supported by FTP
+         but a file need not have record structure.
+
+      reply
+
+         A reply is an acknowledgment (positive or negative) sent from
+         server to user via the control connection in response to FTP
+         commands.  The general form of a reply is a completion code
+         (including error codes) followed by a text string.  The codes
+         are for use by programs and the text is usually intended for
+         human users.
+
+      server-DTP
+
+         The data transfer process, in its normal "active" state,
+         establishes the data connection with the "listening" data port.
+         It sets up parameters for transfer and storage, and transfers
+         data on command from its PI.  The DTP can be placed in a
+         "passive" state to listen for, rather than initiate a
+         connection on the data port.
+
+      server-FTP process
+
+         A process or set of processes which perform the function of
+         file transfer in cooperation with a user-FTP process and,
+         possibly, another server.  The functions consist of a protocol
+         interpreter (PI) and a data transfer process (DTP).
+
+      server-PI
+
+         The server protocol interpreter "listens" on Port L for a
+         connection from a user-PI and establishes a control
+         communication connection.  It receives standard FTP commands
+         from the user-PI, sends replies, and governs the server-DTP.
+
+      type
+
+         The data representation type used for data transfer and
+         storage.  Type implies certain transformations between the time
+         of data storage and data transfer.  The representation types
+         defined in FTP are described in the Section on Establishing
+         Data Connections.
+
+      user
+
+         A person or a process on behalf of a person wishing to obtain
+         file transfer service.  The human user may interact directly
+         with a server-FTP process, but use of a user-FTP process is
+         preferred since the protocol design is weighted towards
+         automata.
+
+      user-DTP
+
+         The data transfer process "listens" on the data port for a
+         connection from a server-FTP process.  If two servers are
+         transferring data between them, the user-DTP is inactive.
+
+      user-FTP process
+
+         A set of functions including a protocol interpreter, a data
+         transfer process and a user interface which together perform
+         the function of file transfer in cooperation with one or more
+         server-FTP processes.  The user interface allows a local
+         language to be used in the command-reply dialogue with the
+         user.
+
+      user-PI
+
+         The user protocol interpreter initiates the control connection
+         from its port U to the server-FTP process, initiates FTP
+         commands, and governs the user-DTP if that process is part of
+         the file transfer.
+

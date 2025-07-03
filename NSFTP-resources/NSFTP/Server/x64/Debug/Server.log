@@ -1,0 +1,4 @@
+﻿  Server.cpp
+C:\Users\user\source\repos\NSFTP\Server\Server.cpp(61,54): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\user\source\repos\NSFTP\Server\Server.cpp(82,7): warning C4101: 'recvbuf': unreferenced local variable
+  Server.vcxproj -> C:\Users\user\source\repos\NSFTP\x64\Debug\Server.exe
